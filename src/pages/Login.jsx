@@ -1,19 +1,64 @@
-import Button from '../components/Button.jsx';
-import InputField from '../components/InputField.jsx';
-import PasswordField from '../components/PasswordField.jsx';
+import { Link } from "react-router-dom";
+import InputField from "../components/InputField";
+import PasswordField from "../components/PasswordField";
+import Button from "../components/Button";
 
-export default function Login() {
+const Login = () => {
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-slate-900">Login</h2>
-        <p className="mt-2 text-sm text-slate-500">Access your StudyFlow workspace.</p>
+    <div className="flex min-h-screen">
+      <div className="flex flex-col justify-center w-1/2 px-16 text-white bg-blue-700">
+        <h1 className="mb-6 text-5xl font-bold">
+          AI Learning Assistant
+        </h1>
+
+        <p className="text-lg leading-8 text-blue-100">
+          Plan Smarter.
+          <br />
+          Learn Faster.
+          <br />
+          Stay Consistent.
+        </p>
       </div>
-      <div className="space-y-4">
-        <InputField id="email" label="Email" type="email" placeholder="you@example.com" />
-        <PasswordField id="password" label="Password" placeholder="Enter your password" />
-        <Button className="w-full">Login</Button>
+
+      <div className="flex items-center justify-center w-1/2 bg-gray-100">
+        <div className="bg-white w-[420px] rounded-xl shadow-lg p-10">
+          <h2 className="mb-2 text-3xl font-bold">Welcome Back</h2>
+
+          <p className="mb-8 text-gray-500">
+            Login to your account
+          </p>
+
+          <form className="space-y-5">
+            <InputField
+              label="Email"
+              type="email"
+              placeholder="Enter your email"
+            />
+
+            <PasswordField
+              label="Password"
+              placeholder="Enter your password"
+            />
+
+            <Button fullWidth>
+              Login
+            </Button>
+          </form>
+
+          <p className="mt-6 text-center">
+            Don't have an account?
+
+            <Link
+              to="/register"
+              className="ml-2 font-semibold text-blue-600"
+            >
+              Register
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default Login;

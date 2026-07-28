@@ -1,17 +1,21 @@
-import { Outlet } from 'react-router-dom';
-import Navbar from '../components/Navbar.jsx';
-import Sidebar from '../components/Sidebar.jsx';
+import { Outlet } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
 
-export default function MainLayout() {
+const MainLayout = () => {
   return (
-    <div className="min-h-screen bg-slate-50">
-      <Navbar />
-      <div className="lg:flex">
-        <Sidebar />
-        <main className="flex-1 px-4 py-8 sm:px-6 lg:px-8">
+    <div className="flex min-h-screen bg-gray-100">
+      <Sidebar />
+
+      <div className="flex flex-col flex-1">
+        <Navbar />
+
+        <main className="p-8">
           <Outlet />
         </main>
       </div>
     </div>
   );
-}
+};
+
+export default MainLayout;

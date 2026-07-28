@@ -1,40 +1,69 @@
-import { NavLink } from 'react-router-dom';
-import { FiBookOpen, FiCalendar, FiCheckSquare, FiGrid, FiUser } from 'react-icons/fi';
-import { NAV_LINKS } from '../utils/constants.js';
+import { NavLink } from "react-router-dom";
+import {
+  LayoutDashboard,
+  BookOpen,
+  CheckSquare,
+  Sparkles,
+  User,
+} from "lucide-react";
 
-const icons = {
-  Dashboard: FiGrid,
-  Subjects: FiBookOpen,
-  Tasks: FiCheckSquare,
-  Planner: FiCalendar,
-  Profile: FiUser,
-};
+const links = [
+  {
+    name: "Dashboard",
+    path: "/dashboard",
+    icon: <LayoutDashboard size={20} />,
+  },
+  {
+    name: "Subjects",
+    path: "/subjects",
+    icon: <BookOpen size={20} />,
+  },
+  {
+    name: "Tasks",
+    path: "/tasks",
+    icon: <CheckSquare size={20} />,
+  },
+  {
+    name: "AI Planner",
+    path: "/planner",
+    icon: <Sparkles size={20} />,
+  },
+  {
+    name: "Profile",
+    path: "/profile",
+    icon: <User size={20} />,
+  },
+];
 
-export default function Sidebar() {
+const Sidebar = () => {
   return (
-    <aside className="border-b border-slate-200 bg-white lg:min-h-[calc(100vh-4rem)] lg:w-64 lg:border-b-0 lg:border-r">
-      <nav className="flex gap-2 overflow-x-auto p-4 lg:flex-col lg:gap-1">
-        {NAV_LINKS.map((link) => {
-          const Icon = icons[link.label];
+    <aside className="w-64 h-screen p-6 text-white bg-blue-700">
 
-          return (
-            <NavLink
-              key={link.path}
-              to={link.path}
-              className={({ isActive }) =>
-                `flex min-w-max items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition ${
-                  isActive
-                    ? 'bg-primary-50 text-primary-700'
-                    : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
-                }`
-              }
-            >
-              <Icon className="h-4 w-4" />
-              {link.label}
-            </NavLink>
-          );
-        })}
+      <h1 className="mb-10 text-2xl font-bold">
+        StudyFlow
+      </h1>
+
+      <nav className="space-y-3">
+        {links.map((link) => (
+          <NavLink
+            key={link.path}
+            to={link.path}
+            className={({ isActive }) =>
+              `flex items-center gap-3 p-3 rounded-lg transition ${
+                isActive
+                  ? "bg-white text-blue-700"
+                  : "hover:bg-blue-600"
+              }`
+            }
+          >
+            {link.icon}
+            {link.name}
+          </NavLink>
+        ))}
       </nav>
+
     </aside>
   );
-}
+};
+
+export default Sidebar;

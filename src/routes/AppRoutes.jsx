@@ -1,40 +1,38 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
-import ProtectedRoute from '../components/ProtectedRoute.jsx';
-import AuthLayout from '../layouts/AuthLayout.jsx';
-import MainLayout from '../layouts/MainLayout.jsx';
-import Dashboard from '../pages/Dashboard.jsx';
-import Login from '../pages/Login.jsx';
-import NotFound from '../pages/NotFound.jsx';
-import Planner from '../pages/Planner.jsx';
-import Profile from '../pages/Profile.jsx';
-import Register from '../pages/Register.jsx';
-import Subjects from '../pages/Subjects.jsx';
-import Tasks from '../pages/Tasks.jsx';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-export default function AppRoutes() {
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import Dashboard from "../pages/Dashboard";
+import Subjects from "../pages/Subjects";
+import Tasks from "../pages/Tasks";
+import Planner from "../pages/Planner";
+import Profile from "../pages/Profile";
+import NotFound from "../pages/NotFound";
+
+import MainLayout from "../layouts/MainLayout";
+
+const AppRoutes = () => {
   return (
-    <Routes>
-      <Route element={<AuthLayout />}>
+    <BrowserRouter>
+      <Routes>
+
         <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-      </Route>
 
-      <Route
-        element={
-          <ProtectedRoute>
-            <MainLayout />
-          </ProtectedRoute>
-        }
-      >
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/subjects" element={<Subjects />} />
-        <Route path="/tasks" element={<Tasks />} />
-        <Route path="/planner" element={<Planner />} />
-        <Route path="/profile" element={<Profile />} />
-      </Route>
+        <Route element={<MainLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/subjects" element={<Subjects />} />
+          <Route path="/tasks" element={<Tasks />} />
+          <Route path="/planner" element={<Planner />} />
+          <Route path="/profile" element={<Profile />} />
+        </Route>
 
-      <Route path="/home" element={<Navigate to="/dashboard" replace />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+        <Route path="*" element={<NotFound />} />
+
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
+
+export default AppRoutes;
