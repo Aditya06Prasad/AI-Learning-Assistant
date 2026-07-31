@@ -1,6 +1,16 @@
+import { useNavigate } from "react-router-dom";
 import Button from "./Button";
+import useAuth from "../hooks/useAuth";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
   return (
     <header className="flex items-center justify-between px-8 py-5 bg-white shadow">
 
@@ -13,10 +23,10 @@ const Navbar = () => {
       <div className="flex items-center gap-4">
 
         <span className="font-medium">
-          Aditya
+          {user?.fullName || user?.email || "User"}
         </span>
 
-        <Button>
+        <Button onClick={handleLogout}>
           Logout
         </Button>
 

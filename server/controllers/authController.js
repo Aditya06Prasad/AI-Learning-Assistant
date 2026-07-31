@@ -6,10 +6,16 @@ export const registerUser = async (req, res) => {
   try {
     const { fullName, email, password } = req.body;
 
+    if (!fullName || !email || !password) {
+      return res.status(400).json({
+        message: "Full name, email, and password are required",
+      });
+    }
+
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      return res.status(400).json({
+      return res.status(409).json({
         message: "User already exists",
       });
     }
@@ -32,7 +38,11 @@ export const registerUser = async (req, res) => {
 
     res.status(201).json({
       token,
-      user,
+      user: {
+        id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+      },
     });
   } catch (error) {
     res.status(500).json({
@@ -74,7 +84,11 @@ export const loginUser = async (req, res) => {
 
     res.json({
       token,
-      user,
+      user: {
+        id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+      },
     });
   } catch (error) {
     res.status(500).json({

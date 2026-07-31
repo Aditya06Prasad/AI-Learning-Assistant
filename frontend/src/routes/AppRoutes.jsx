@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import Login from "../pages/Login";
 import Register from "../pages/Register";
@@ -8,30 +8,35 @@ import Tasks from "../pages/Tasks";
 import Planner from "../pages/Planner";
 import Profile from "../pages/Profile";
 import NotFound from "../pages/NotFound";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 import MainLayout from "../layouts/MainLayout";
 
 const AppRoutes = () => {
   return (
-    <BrowserRouter>
-      <Routes>
+    <Routes>
 
-        <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+      <Route path="/" element={<Login />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
-        <Route element={<MainLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/subjects" element={<Subjects />} />
-          <Route path="/tasks" element={<Tasks />} />
-          <Route path="/planner" element={<Planner />} />
-          <Route path="/profile" element={<Profile />} />
-        </Route>
+      <Route
+        element={
+          <ProtectedRoute>
+            <MainLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/subjects" element={<Subjects />} />
+        <Route path="/tasks" element={<Tasks />} />
+        <Route path="/planner" element={<Planner />} />
+        <Route path="/profile" element={<Profile />} />
+      </Route>
 
-        <Route path="*" element={<NotFound />} />
+      <Route path="*" element={<NotFound />} />
 
-      </Routes>
-    </BrowserRouter>
+    </Routes>
   );
 };
 

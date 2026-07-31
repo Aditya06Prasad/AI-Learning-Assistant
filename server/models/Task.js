@@ -7,6 +7,15 @@ const taskSchema = new mongoose.Schema(
       required: true,
     },
 
+    description: {
+      type: String,
+    },
+
+    priority: {
+      type: String,
+      default: "Medium",
+    },
+
     subject: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Subject",

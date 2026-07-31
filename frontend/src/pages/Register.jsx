@@ -1,16 +1,23 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import InputField from "../components/InputField";
 import PasswordField from "../components/PasswordField";
 import Button from "../components/Button";
+import api from "../services/api";
+import useAuth from "../hooks/useAuth";
 
 const Register = () => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -19,9 +26,30 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    setError("");
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      const { data } = await api.post("/api/auth/register", {
+        fullName: formData.fullName,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      login(data.user, data.token);
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err.response?.data?.message || "Registration failed");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -49,6 +77,11 @@ const Register = () => {
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-5">
+            {error && (
+              <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">
+                {error}
+              </p>
+            )}
 
             <InputField
               id="fullName"
@@ -83,8 +116,8 @@ const Register = () => {
               onChange={handleChange}
             />
 
-            <Button fullWidth>
-              Register
+            <Button type="submit" fullWidth disabled={isSubmitting}>
+              {isSubmitting ? "Registering..." : "Register"}
             </Button>
 
           </form>

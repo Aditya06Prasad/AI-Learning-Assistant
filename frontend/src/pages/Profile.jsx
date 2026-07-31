@@ -1,7 +1,10 @@
 import Card from "../components/Card";
 import Button from "../components/Button";
+import useAuth from "../hooks/useAuth";
 
 const Profile = () => {
+  const { user } = useAuth();
+
   return (
     <div className="space-y-8">
 
@@ -20,11 +23,11 @@ const Profile = () => {
           />
 
           <h2 className="mt-4 text-2xl font-bold">
-            Aditya Prasad
+            {user?.fullName || "User Name"}
           </h2>
 
           <p className="text-gray-500">
-            aditya@gmail.com
+            {user?.email || "user@example.com"}
           </p>
 
           <Button className="mt-6">
