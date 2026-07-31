@@ -33,7 +33,7 @@ const Dashboard = () => {
         </h1>
 
         <p className="mt-2 text-gray-500">
-          Welcome back! Here's your study overview.
+          Welcome back! Here&apos;s your study overview.
         </p>
       </div>
 
@@ -59,7 +59,7 @@ const Dashboard = () => {
 
       <Card>
         <h2 className="mb-4 text-xl font-semibold">
-          Today's Progress
+          Today&apos;s Progress
         </h2>
 
         <div className="w-full h-4 bg-gray-200 rounded-full">
@@ -70,7 +70,7 @@ const Dashboard = () => {
         </div>
 
         <p className="mt-3 text-gray-600">
-          65% of today's study goal completed.
+          65% of today&apos;s study goal completed.
         </p>
       </Card>
 
