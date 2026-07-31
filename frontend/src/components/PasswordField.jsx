@@ -12,7 +12,7 @@ export default function PasswordField({ label, id, error, className = '', ...pro
         <input
           id={id}
           type="password"
-          className={`w-full rounded-lg border border-slate-300 bg-white px-3 py-2 pr-10 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 ${className}`}
+          className={`w-full rounded-2xl border-2 border-slate-200 bg-white px-4 py-3 pr-10 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-pastel-purple focus:ring-4 focus:ring-pastel-purple/20 ${className}`}
           {...props}
         />
         <FiEye className="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />

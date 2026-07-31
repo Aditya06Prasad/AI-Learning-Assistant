@@ -37,10 +37,10 @@ const links = [
 
 const Sidebar = () => {
   return (
-    <aside className="w-64 h-screen p-6 text-white bg-blue-700">
+    <aside className="w-64 h-screen p-6 text-slate-800 bg-white border-r-2 border-pastel-purple/20">
 
-      <h1 className="mb-10 text-2xl font-bold">
-        StudyFlow
+      <h1 className="mb-10 text-2xl font-bold flex items-center gap-2">
+        <span className="text-pastel-purple">⭐</span> StudyFlow
       </h1>
 
       <nav className="space-y-3">
@@ -49,10 +49,10 @@ const Sidebar = () => {
             key={link.path}
             to={link.path}
             className={({ isActive }) =>
-              `flex items-center gap-3 p-3 rounded-lg transition ${
+              `flex items-center gap-3 p-3 rounded-2xl font-medium transition ${
                 isActive
-                  ? "bg-white text-blue-700"
-                  : "hover:bg-blue-600"
+                  ? "bg-pastel-purple text-white shadow-sm"
+                  : "hover:bg-pastel-purple/10 text-slate-600 hover:text-pastel-purple"
               }`
             }
           >

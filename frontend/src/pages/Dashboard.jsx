@@ -55,29 +55,31 @@ const Dashboard = () => {
     {
       title: "Subjects",
       value: data.totalSubjects,
-      color: "bg-blue-500",
+      color: "bg-pastel-purple shadow-sm",
     },
     {
       title: "Pending Tasks",
       value: data.pendingTasks,
-      color: "bg-orange-500",
+      color: "bg-pastel-yellow shadow-sm",
     },
     {
       title: "Completed",
       value: data.completedTasks,
-      color: "bg-green-500",
+      color: "bg-pastel-green shadow-sm",
     },
     {
       title: "Total Tasks",
       value: data.totalTasks,
-      color: "bg-purple-500",
+      color: "bg-pastel-pink shadow-sm",
     },
   ];
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <h1 className="text-3xl font-bold flex items-center gap-2">
+          ⭐ Dashboard
+        </h1>
         <p className="mt-2 text-gray-500">
           Welcome back! Here&apos;s your study overview.
         </p>
@@ -101,7 +103,7 @@ const Dashboard = () => {
         <h2 className="mb-4 text-xl font-semibold">Overall Progress</h2>
         <div className="w-full h-4 bg-gray-200 rounded-full">
           <div
-            className="h-4 bg-blue-600 rounded-full transition-all duration-500"
+            className="h-4 bg-pastel-green rounded-full transition-all duration-500 shadow-sm"
             style={{ width: `${data.completionPercentage}%` }}
           />
         </div>

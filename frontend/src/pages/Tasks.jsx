@@ -27,8 +27,8 @@ const Tasks = () => {
     <div className="space-y-8">
 
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">
-          Tasks
+        <h1 className="text-3xl font-bold flex items-center gap-2">
+          ✅ Tasks
         </h1>
 
         <Button>
@@ -52,10 +52,10 @@ const Tasks = () => {
               </div>
 
               <span
-                className={`px-4 py-2 rounded-full text-white ${
+                className={`px-4 py-2 rounded-full font-semibold shadow-sm text-sm ${
                   task.status === "Completed"
-                    ? "bg-green-500"
-                    : "bg-orange-500"
+                    ? "bg-pastel-green text-slate-800"
+                    : "bg-pastel-yellow text-slate-800"
                 }`}
               >
                 {task.status}

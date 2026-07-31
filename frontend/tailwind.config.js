@@ -11,9 +11,16 @@ export default {
           600: '#2563eb',
           700: '#1d4ed8',
         },
+        pastel: {
+          purple: '#d8b4e2',
+          green: '#a7e4cd',
+          yellow: '#ffe699',
+          pink: '#ffccde',
+          cute: '#fdfcf8'
+        }
       },
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['Poppins', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
     },
   },

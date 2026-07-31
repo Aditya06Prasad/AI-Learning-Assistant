@@ -12,11 +12,11 @@ const Navbar = () => {
   };
 
   return (
-    <header className="flex items-center justify-between px-8 py-5 bg-white shadow">
+    <header className="flex items-center justify-between px-8 py-5 bg-white border-b-4 border-pastel-green/50">
 
       <div>
-        <h2 className="text-xl font-bold">
-          AI Learning Assistant
+        <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
+           AI Learning Assistant 💡
         </h2>
       </div>
 

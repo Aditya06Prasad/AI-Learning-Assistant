@@ -29,8 +29,8 @@ const Subjects = () => {
     <div className="space-y-8">
 
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">
-          Subjects
+        <h1 className="text-3xl font-bold flex items-center gap-2">
+          📚 Subjects
         </h1>
 
         <Button>
@@ -45,9 +45,9 @@ const Subjects = () => {
               {subject.name}
             </h2>
 
-            <div className="w-full h-3 mt-5 bg-gray-200 rounded-full">
+            <div className="w-full h-3 mt-5 bg-gray-100 rounded-full shadow-inner">
               <div
-                className="h-3 bg-blue-600 rounded-full"
+                className="h-3 bg-pastel-purple rounded-full shadow-sm"
                 style={{
                   width: `${subject.progress}%`,
                 }}
