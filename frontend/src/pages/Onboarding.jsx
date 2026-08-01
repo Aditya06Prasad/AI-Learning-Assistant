@@ -8,20 +8,32 @@ const Onboarding = () => {
   const location = useLocation();
   
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [selectedClass, setSelectedClass] = useState(location.state?.selectedClass || null);
   const [educationLevel, setEducationLevel] = useState(location.state?.educationLevel || null);
-  const [selectedBoard, setSelectedBoard] = useState(location.state?.selectedBoard || null);
   
-  // sidebarStep can be "board" or "class"
+  // States for 1-10
+  const [selectedBoard, setSelectedBoard] = useState(location.state?.selectedBoard || null);
+  const [selectedClass, setSelectedClass] = useState(location.state?.selectedClass || null);
+  
+  // States for 11-12
+  const [selectedStream, setSelectedStream] = useState(location.state?.selectedStream || null);
+  const [selectedScienceBranch, setSelectedScienceBranch] = useState(location.state?.selectedScienceBranch || null);
+  
+  // sidebarStep can be "board", "class", "stream", "science_branch"
   const [sidebarStep, setSidebarStep] = useState("class");
 
   const handleEducationSelect = (level) => {
     setEducationLevel(level);
-    setSelectedClass(null); // reset selection when opening a new level
+    
+    // Reset all previous selections
+    setSelectedClass(null);
     setSelectedBoard(null);
+    setSelectedStream(null);
+    setSelectedScienceBranch(null);
     
     if (level === "1-10") {
       setSidebarStep("board");
+    } else if (level === "11-12") {
+      setSidebarStep("stream");
     } else {
       setSidebarStep("class");
     }
@@ -41,26 +53,51 @@ const Onboarding = () => {
   let options = [];
   let sidebarTitle = "Select your class";
   const isBoardStep = sidebarStep === "board";
+  const isStreamStep = sidebarStep === "stream";
+  const isScienceBranchStep = sidebarStep === "science_branch";
 
   if (isBoardStep) {
     options = ["CBSE", "ICSE"];
     sidebarTitle = "Select Your Education Board";
+  } else if (isStreamStep) {
+    options = ["Science", "Commerce", "Arts (Humanities)"];
+    sidebarTitle = "Select Your Stream";
+  } else if (isScienceBranchStep) {
+    options = ["PCM", "PCB"];
+    sidebarTitle = "Select Your Science Stream";
   } else {
     if (educationLevel === "1-10") {
       options = Array.from({ length: 10 }, (_, i) => `Class ${i + 1}`);
-    } else if (educationLevel === "11-12") {
-      options = ["Class 11", "Class 12"];
     } else if (educationLevel === "Undergraduate") {
       options = ["B.Tech (CSE)", "B.Pharma", "MBA"];
       sidebarTitle = "Select your program";
     }
   }
 
-  const isContinueDisabled = isBoardStep ? !selectedBoard : !selectedClass;
+  const getIsContinueDisabled = () => {
+    if (isBoardStep) return !selectedBoard;
+    if (isStreamStep) return !selectedStream;
+    if (isScienceBranchStep) return !selectedScienceBranch;
+    return !selectedClass;
+  };
 
   const handleSidebarContinue = () => {
     if (isBoardStep) {
       setSidebarStep("class");
+    } else if (isStreamStep) {
+      if (selectedStream === "Science") {
+        setSidebarStep("science_branch");
+      } else {
+        // Navigate for Commerce / Arts
+        navigate("/onboarding/subjects", { 
+          state: { selectedStream, educationLevel } 
+        });
+      }
+    } else if (isScienceBranchStep) {
+      // Navigate for PCM / PCB
+      navigate("/onboarding/subjects", { 
+        state: { selectedStream, selectedScienceBranch, educationLevel } 
+      });
     } else {
       if (selectedClass) {
         navigate("/onboarding/subjects", { 
@@ -69,6 +106,22 @@ const Onboarding = () => {
       }
     }
   };
+
+  const getIsSelected = (option) => {
+    if (isBoardStep) return selectedBoard === option;
+    if (isStreamStep) return selectedStream === option;
+    if (isScienceBranchStep) return selectedScienceBranch === option;
+    return selectedClass === option;
+  };
+
+  const handleOptionSelect = (option) => {
+    if (isBoardStep) setSelectedBoard(option);
+    else if (isStreamStep) setSelectedStream(option);
+    else if (isScienceBranchStep) setSelectedScienceBranch(option);
+    else setSelectedClass(option);
+  };
+
+  const isContinueDisabled = getIsContinueDisabled();
 
   return (
     <div className="relative min-h-screen bg-pastel-cute font-sans overflow-x-hidden">
@@ -142,23 +195,30 @@ const Onboarding = () => {
             </button>
           </div>
 
-          <div className={`grid gap-4 ${isBoardStep ? "grid-cols-1" : "grid-cols-1 sm:grid-cols-2"}`}>
+          <div className={`grid gap-4 ${(isBoardStep || isStreamStep || isScienceBranchStep) ? "grid-cols-1" : "grid-cols-1 sm:grid-cols-2"}`}>
             {options.map((option) => {
-              const isSelected = isBoardStep ? selectedBoard === option : selectedClass === option;
+              const isSelected = getIsSelected(option);
+              
+              // Map icons for streams to keep the UI beautiful
+              let displayIcon = null;
+              if (isStreamStep) {
+                if (option === "Science") displayIcon = "📘";
+                if (option === "Commerce") displayIcon = "📙";
+                if (option === "Arts (Humanities)") displayIcon = "📕";
+              }
+
               return (
                 <button
                   key={option}
-                  onClick={() => {
-                    if (isBoardStep) setSelectedBoard(option);
-                    else setSelectedClass(option);
-                  }}
-                  className={`p-4 rounded-2xl border-2 transition-all font-semibold text-center outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pastel-purple ${
+                  onClick={() => handleOptionSelect(option)}
+                  className={`p-4 rounded-2xl border-2 transition-all font-semibold outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pastel-purple flex items-center justify-center gap-3 ${
                     isSelected
                       ? "bg-pastel-purple text-slate-900 border-pastel-purple shadow-md"
                       : "bg-white text-slate-600 border-slate-200 hover:border-pastel-purple/50 hover:bg-slate-50"
                   }`}
                 >
-                  {option}
+                  {displayIcon && <span className="text-2xl">{displayIcon}</span>}
+                  <span className={displayIcon ? "text-lg" : ""}>{option}</span>
                 </button>
               );
             })}

@@ -4,19 +4,34 @@ import Card from "../components/Card";
 import Button from "../components/Button";
 import InputField from "../components/InputField";
 import { getSubjectsForCourse } from "../data/subjectsConfig";
+import api from "../services/api";
+import useAuth from "../hooks/useAuth";
 
 const OnboardingSubjects = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const course = location.state?.selectedClass || "";
+  const { updateUser } = useAuth();
+  
   const educationLevel = location.state?.educationLevel || "";
+  const selectedClass = location.state?.selectedClass || "";
   const board = location.state?.selectedBoard || "";
+  const selectedStream = location.state?.selectedStream || "";
+  const selectedScienceBranch = location.state?.selectedScienceBranch || "";
+
+  let course = "";
+  if (educationLevel === "11-12") {
+    course = selectedScienceBranch || selectedStream;
+  } else {
+    course = selectedClass;
+  }
 
   // Dynamic subjects list based on the selected course (and board if applicable)
   const courseSubjects = useMemo(() => getSubjectsForCourse(course, board), [course, board]);
 
   const [selectedSubjects, setSelectedSubjects] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   // Redirect back if accessed directly without course
   useEffect(() => {
@@ -33,11 +48,26 @@ const OnboardingSubjects = () => {
     );
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     if (selectedSubjects.length > 0) {
-      // In the future, send this to backend.
-      // For now, do nothing per instructions.
-      console.log("Selected subjects for", course, ":", selectedSubjects);
+      try {
+        setIsSubmitting(true);
+        setError("");
+        const { data } = await api.put("/api/users/onboarding", {
+          educationLevel,
+          course: selectedClass, // For 1-10 or Undergraduate
+          stream: selectedStream,
+          scienceGroup: selectedScienceBranch,
+          board,
+          subjects: selectedSubjects,
+        });
+        updateUser(data);
+        navigate("/dashboard");
+      } catch (err) {
+        setError(err.response?.data?.message || "Failed to save onboarding data");
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -84,6 +114,13 @@ const OnboardingSubjects = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
+
+        {/* Error message */}
+        {error && (
+          <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-600 text-center">
+            {error}
+          </div>
+        )}
 
         {/* Subjects List */}
         <div className="flex-1">
@@ -148,7 +185,16 @@ const OnboardingSubjects = () => {
         <div className="mt-8 flex items-center justify-between gap-4 sticky bottom-6 bg-pastel-cute/90 backdrop-blur-sm p-4 rounded-2xl border border-white shadow-sm z-10">
           <Button
             type="button"
-            onClick={() => navigate("/onboarding", { state: { selectedClass: course, educationLevel, selectedBoard: board } })}
+            disabled={isSubmitting}
+            onClick={() => navigate("/onboarding", { 
+              state: { 
+                selectedClass, 
+                educationLevel, 
+                selectedBoard: board,
+                selectedStream,
+                selectedScienceBranch
+              } 
+            })}
             className="bg-white text-slate-700 hover:bg-slate-50 border-2 border-slate-200"
           >
             ← Previous
@@ -156,12 +202,12 @@ const OnboardingSubjects = () => {
           
           <Button
             onClick={handleContinue}
-            disabled={selectedSubjects.length === 0}
+            disabled={selectedSubjects.length === 0 || isSubmitting}
             className={`min-w-[120px] ${
-              selectedSubjects.length === 0 ? "opacity-50 cursor-not-allowed" : "shadow-lg shadow-pastel-purple/50"
+              selectedSubjects.length === 0 || isSubmitting ? "opacity-50 cursor-not-allowed" : "shadow-lg shadow-pastel-purple/50"
             }`}
           >
-            Continue →
+            {isSubmitting ? "Saving..." : "Continue →"}
           </Button>
         </div>
 

@@ -31,6 +31,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    stream: {
+      type: String,
+      default: "",
+    },
+    scienceGroup: {
+      type: String,
+      default: "",
+    },
     board: {
       type: String,
       default: "",
@@ -46,6 +54,19 @@ const userSchema = new mongoose.Schema(
     subjects: {
       type: [String],
       default: [],
+    },
+    schoolName: {
+      type: String,
+      default: "",
+    },
+    preparingFor: {
+      type: String,
+      default: "",
+    },
+    gender: {
+      type: String,
+      enum: ["Male", "Female", "Prefer not to say", ""],
+      default: "",
     },
   },
   {

@@ -4,7 +4,7 @@ import User from "../models/User.js";
 
 export const registerUser = async (req, res) => {
   try {
-    const { fullName, email, password } = req.body;
+    const { fullName, email, password, gender } = req.body;
 
     if (!fullName || !email || !password) {
       return res.status(400).json({
@@ -26,6 +26,7 @@ export const registerUser = async (req, res) => {
       fullName,
       email,
       password: hashedPassword,
+      gender: gender || "",
       profilePicture: req.file ? `/uploads/profile/${req.file.filename}` : "",
     });
 

@@ -43,6 +43,9 @@ const Register = () => {
       formDataToSend.append("fullName", formData.fullName);
       formDataToSend.append("email", formData.email);
       formDataToSend.append("password", formData.password);
+      if (formData.gender) {
+        formDataToSend.append("gender", formData.gender);
+      }
       if (formData.profilePicture) {
         formDataToSend.append("profilePicture", formData.profilePicture);
       }
@@ -127,6 +130,23 @@ const Register = () => {
               value={formData.confirmPassword}
               onChange={handleChange}
             />
+
+            <div className="space-y-2">
+              <label htmlFor="gender" className="block text-sm font-medium text-slate-700">
+                Gender (Optional)
+              </label>
+              <select
+                id="gender"
+                value={formData.gender || ""}
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none focus:border-pastel-purple focus:ring-1 focus:ring-pastel-purple bg-white text-slate-700"
+              >
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Prefer not to say">Prefer not to say</option>
+              </select>
+            </div>
 
             <div className="space-y-2">
               <label htmlFor="profilePicture" className="block text-sm font-medium text-slate-700">

@@ -26,7 +26,22 @@ export const updateProfile = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    user.fullName = req.body.fullName || user.fullName;
+    const { 
+      fullName, schoolName, preparingFor, educationLevel, 
+      board, stream, course, classLevel, scienceGroup 
+    } = req.body;
+
+    user.fullName = fullName || user.fullName;
+    
+    // Academic fields
+    if (schoolName !== undefined) user.schoolName = schoolName;
+    if (preparingFor !== undefined) user.preparingFor = preparingFor;
+    if (educationLevel !== undefined) user.educationLevel = educationLevel;
+    if (board !== undefined) user.board = board;
+    if (stream !== undefined) user.stream = stream;
+    if (course !== undefined) user.course = course;
+    if (classLevel !== undefined) user.classLevel = classLevel;
+    if (scienceGroup !== undefined) user.scienceGroup = scienceGroup;
 
     if (req.file) {
       // delete old profile picture if exists
@@ -51,6 +66,14 @@ export const updateProfile = async (req, res) => {
       email: updatedUser.email,
       profilePicture: updatedUser.profilePicture,
       onboardingCompleted: updatedUser.onboardingCompleted,
+      schoolName: updatedUser.schoolName,
+      preparingFor: updatedUser.preparingFor,
+      educationLevel: updatedUser.educationLevel,
+      board: updatedUser.board,
+      stream: updatedUser.stream,
+      course: updatedUser.course,
+      classLevel: updatedUser.classLevel,
+      scienceGroup: updatedUser.scienceGroup,
     });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
@@ -81,10 +104,17 @@ export const changePassword = async (req, res) => {
 
 export const updateOnboarding = async (req, res) => {
   try {
-    const { educationLevel, classLevel } = req.body;
+    const { 
+      educationLevel, 
+      course,
+      stream,
+      scienceGroup,
+      board,
+      subjects 
+    } = req.body;
     
-    if (!educationLevel || !classLevel) {
-      return res.status(400).json({ message: "Education level and class level are required" });
+    if (!educationLevel) {
+      return res.status(400).json({ message: "Education level is required" });
     }
 
     const user = await User.findById(req.user.id);
@@ -93,7 +123,11 @@ export const updateOnboarding = async (req, res) => {
     }
 
     user.educationLevel = educationLevel;
-    user.classLevel = classLevel;
+    user.course = course || "";
+    user.stream = stream || "";
+    user.scienceGroup = scienceGroup || "";
+    user.board = board || "";
+    user.subjects = subjects || [];
     user.onboardingCompleted = true;
 
     const updatedUser = await user.save();
@@ -105,7 +139,11 @@ export const updateOnboarding = async (req, res) => {
       profilePicture: updatedUser.profilePicture,
       onboardingCompleted: updatedUser.onboardingCompleted,
       educationLevel: updatedUser.educationLevel,
-      classLevel: updatedUser.classLevel,
+      course: updatedUser.course,
+      stream: updatedUser.stream,
+      scienceGroup: updatedUser.scienceGroup,
+      board: updatedUser.board,
+      subjects: updatedUser.subjects,
     });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
