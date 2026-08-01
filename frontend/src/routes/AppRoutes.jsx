@@ -8,6 +8,8 @@ import Tasks from "../pages/Tasks";
 import Planner from "../pages/Planner";
 import Profile from "../pages/Profile";
 import NotFound from "../pages/NotFound";
+import Onboarding from "../pages/Onboarding";
+import OnboardingSubjects from "../pages/OnboardingSubjects";
 import ProtectedRoute from "../components/ProtectedRoute";
 
 import MainLayout from "../layouts/MainLayout";
@@ -20,9 +22,27 @@ const AppRoutes = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
+      {/* Onboarding is protected but doesn't require onboarding to be completed */}
+      <Route 
+        path="/onboarding" 
+        element={
+          <ProtectedRoute requireOnboarding={false}>
+            <Onboarding />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/onboarding/subjects" 
+        element={
+          <ProtectedRoute requireOnboarding={false}>
+            <OnboardingSubjects />
+          </ProtectedRoute>
+        } 
+      />
+
       <Route
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requireOnboarding={true}>
             <MainLayout />
           </ProtectedRoute>
         }

@@ -19,6 +19,34 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    profilePicture: {
+      type: String,
+      default: "",
+    },
+    educationLevel: {
+      type: String,
+      default: "",
+    },
+    course: {
+      type: String,
+      default: "",
+    },
+    board: {
+      type: String,
+      default: "",
+    },
+    classLevel: {
+      type: String,
+      default: "",
+    },
+    onboardingCompleted: {
+      type: Boolean,
+      default: false,
+    },
+    subjects: {
+      type: [String],
+      default: [],
+    },
   },
   {
     timestamps: true,

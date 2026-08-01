@@ -22,9 +22,16 @@ const Navbar = () => {
 
       <div className="flex items-center gap-4">
 
-        <span className="font-medium">
-          {user?.fullName || user?.email || "User"}
-        </span>
+        <div className="flex items-center gap-2">
+          <img
+            src={user?.profilePicture ? `http://localhost:5050${user.profilePicture}` : "https://i.pravatar.cc/150"}
+            alt="Profile"
+            className="w-10 h-10 rounded-full object-cover border-2 border-pastel-purple/50"
+          />
+          <span className="font-medium text-slate-700 hidden sm:block">
+            {user?.fullName || user?.email || "User"}
+          </span>
+        </div>
 
         <Button onClick={handleLogout}>
           Logout

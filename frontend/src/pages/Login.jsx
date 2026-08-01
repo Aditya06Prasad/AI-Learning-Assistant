@@ -35,7 +35,11 @@ const Login = () => {
       });
 
       login(data.user, data.token);
-      navigate("/dashboard");
+      if (data.user.onboardingCompleted) {
+        navigate("/dashboard");
+      } else {
+        navigate("/onboarding");
+      }
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
     } finally {

@@ -15,6 +15,7 @@ const Register = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    profilePicture: null,
   });
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -37,14 +38,25 @@ const Register = () => {
 
     try {
       setIsSubmitting(true);
-      const { data } = await api.post("/api/auth/register", {
-        fullName: formData.fullName,
-        email: formData.email,
-        password: formData.password,
+      
+      const formDataToSend = new FormData();
+      formDataToSend.append("fullName", formData.fullName);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("password", formData.password);
+      if (formData.profilePicture) {
+        formDataToSend.append("profilePicture", formData.profilePicture);
+      }
+
+      const { data } = await api.post("/api/auth/register", formDataToSend, {
+        headers: { "Content-Type": "multipart/form-data" }
       });
 
       login(data.user, data.token);
-      navigate("/dashboard");
+      if (data.user.onboardingCompleted) {
+        navigate("/dashboard");
+      } else {
+        navigate("/onboarding");
+      }
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
     } finally {
@@ -115,6 +127,19 @@ const Register = () => {
               value={formData.confirmPassword}
               onChange={handleChange}
             />
+
+            <div className="space-y-2">
+              <label htmlFor="profilePicture" className="block text-sm font-medium text-slate-700">
+                Profile Picture (Optional)
+              </label>
+              <input
+                id="profilePicture"
+                type="file"
+                accept="image/jpeg, image/jpg, image/png"
+                onChange={(e) => setFormData({ ...formData, profilePicture: e.target.files[0] })}
+                className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-pastel-purple file:text-slate-900 hover:file:bg-[#c7b6ef]"
+              />
+            </div>
 
             <Button type="submit" fullWidth disabled={isSubmitting}>
               {isSubmitting ? "Registering..." : "Register"}

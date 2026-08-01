@@ -26,6 +26,7 @@ export const registerUser = async (req, res) => {
       fullName,
       email,
       password: hashedPassword,
+      profilePicture: req.file ? `/uploads/profile/${req.file.filename}` : "",
     });
 
     const token = jwt.sign(
@@ -42,6 +43,8 @@ export const registerUser = async (req, res) => {
         id: user._id,
         fullName: user.fullName,
         email: user.email,
+        profilePicture: user.profilePicture,
+        onboardingCompleted: user.onboardingCompleted,
       },
     });
   } catch (error) {
@@ -88,6 +91,8 @@ export const loginUser = async (req, res) => {
         id: user._id,
         fullName: user.fullName,
         email: user.email,
+        profilePicture: user.profilePicture,
+        onboardingCompleted: user.onboardingCompleted,
       },
     });
   } catch (error) {
