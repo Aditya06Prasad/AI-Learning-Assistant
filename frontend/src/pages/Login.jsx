@@ -6,6 +6,8 @@ import Button from "../components/Button";
 import api from "../services/api";
 import useAuth from "../hooks/useAuth";
 
+import bgImage from "../public/images/clgStdBg.jpg";
+
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -49,18 +51,24 @@ const Login = () => {
 
   return (
     <div className="flex min-h-screen">
-      <div className="flex flex-col justify-center w-1/2 px-16 text-white bg-blue-700">
-        <h1 className="mb-6 text-5xl font-bold">
-          AI Learning Assistant
-        </h1>
+      <div className="relative flex flex-col justify-center w-1/2 px-16 text-white bg-slate-900 overflow-hidden">
+        <div 
+          className="absolute inset-0 z-0 opacity-30 bg-cover bg-center"
+          style={{ backgroundImage: `url(${bgImage})` }}
+        />
+        <div className="relative z-10">
+          <h1 className="mb-6 text-5xl font-bold">
+            AI Learning Assistant
+          </h1>
 
-        <p className="text-lg leading-8 text-blue-100">
-          Plan Smarter.
-          <br />
-          Learn Faster.
-          <br />
-          Stay Consistent.
-        </p>
+          <p className="text-lg leading-8 text-blue-100">
+            Plan Smarter.
+            <br />
+            Learn Faster.
+            <br />
+            Stay Consistent.
+          </p>
+        </div>
       </div>
 
       <div className="flex items-center justify-center w-1/2 bg-gray-100">
