@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 import useAuth from "../hooks/useAuth";
+import { API_URL } from "../services/api";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const Navbar = () => {
 
         <div className="flex items-center gap-2">
           <img
-            src={user?.profilePicture ? `http://localhost:5050${user.profilePicture}` : "https://i.pravatar.cc/150"}
+            src={user?.profilePicture ? `${API_URL}${user.profilePicture}` : "https://i.pravatar.cc/150"}
             alt="Profile"
             className="w-10 h-10 rounded-full object-cover border-2 border-pastel-purple/50"
           />

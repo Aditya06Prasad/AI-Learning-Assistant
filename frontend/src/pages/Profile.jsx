@@ -4,7 +4,7 @@ import Button from "../components/Button";
 import InputField from "../components/InputField";
 import PasswordField from "../components/PasswordField";
 import useAuth from "../hooks/useAuth";
-import api from "../services/api";
+import api, { API_URL } from "../services/api";
 
 const PREPARING_FOR_OPTIONS = [
   "JEE Main", "JEE Advanced", "NEET", "UPSC", "GATE", "CAT", "CLAT", "SSC CGL",
@@ -39,7 +39,7 @@ const Profile = () => {
   
   const [preview, setPreview] = useState(
     user?.profilePicture
-      ? `http://localhost:5050${user.profilePicture}`
+      ? `${API_URL}${user.profilePicture}`
       : "https://i.pravatar.cc/150"
   );
   
@@ -69,7 +69,7 @@ const Profile = () => {
       }));
       setPreview(
         user.profilePicture
-          ? `http://localhost:5050${user.profilePicture}`
+          ? `${API_URL}${user.profilePicture}`
           : "https://i.pravatar.cc/150"
       );
     }
@@ -220,7 +220,7 @@ const Profile = () => {
           <div className="p-8">
             <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-100">
               <h2 className="text-2xl font-bold text-slate-800">Edit Profile</h2>
-              <Button type="button" className="bg-slate-100 hover:bg-slate-200 text-slate-600" onClick={() => { setIsEditing(false); setPreview(user?.profilePicture ? `http://localhost:5050${user.profilePicture}` : "https://i.pravatar.cc/150"); }}>
+              <Button type="button" className="bg-slate-100 hover:bg-slate-200 text-slate-600" onClick={() => { setIsEditing(false); setPreview(user?.profilePicture ? `${API_URL}${user.profilePicture}` : "https://i.pravatar.cc/150"); }}>
                 Cancel
               </Button>
             </div>
