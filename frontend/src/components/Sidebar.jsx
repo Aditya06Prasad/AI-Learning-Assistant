@@ -37,7 +37,7 @@ const links = [
 
 const Sidebar = () => {
   return (
-    <aside className="w-64 h-screen p-6 text-slate-800 bg-white border-r-2 border-pastel-purple/20">
+    <aside className="w-64 h-screen p-6 text-slate-800 bg-white border-r-2 border-pastel-purple/20 print:hidden">
 
       <h1 className="mb-10 text-2xl font-bold flex items-center gap-2">
         <span className="text-pastel-purple">⭐</span> StudyFlow

@@ -44,7 +44,7 @@ const questions = [
   },
 ];
 
-const PlannerQuestions = ({ onComplete }) => {
+const PlannerQuestions = ({ onComplete, saveAnswers }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState({});
 
@@ -61,6 +61,7 @@ const PlannerQuestions = ({ onComplete }) => {
     if (!answers[question.id]) return;
 
     if (currentQuestion === questions.length - 1) {
+      saveAnswers(answers);
       onComplete();
       return;
     }
